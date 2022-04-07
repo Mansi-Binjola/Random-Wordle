@@ -1,0 +1,139 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <title>Random Wordle</title>
+    <style>
+        :root {
+            --default: #121213;
+            --empty: #636378;
+            --wrong: #b59f3b;
+            --right: #538d4e;
+        }
+        #game-container {
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 600px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-rows: repeat(6, auto);
+            grid-template-columns: repeat(5, auto);
+        }
+
+        .box {
+            width: 60px;
+            height: 60px;
+            border: 2px solid var(--empty);
+            margin: 4px;
+            color: black;
+            text-transform: uppercase;
+            display: grid;
+            place-items: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 2.4rem;
+        }
+
+        .box.empty {
+            background: var(--empty);
+        }
+
+        .box.wrong {
+            background: var(--wrong);
+        }
+
+        .box.right {
+            background: var(--right);
+        }
+
+        .keyboard-container {
+            width: 330px;
+            margin-bottom: 30px;
+        }
+
+        .animated {
+            animation: flip 0.5s ease;
+            color: white;
+        }
+
+        @keyframes flip {
+            0% {
+                transform: scaleY(1);
+
+            }
+
+            50% {
+                transform: scaleY(0);
+            }
+        }
+
+        .toast {
+            left: 50%;
+            position: fixed;
+            transform: translate(-50%, 0px);
+            z-index: 9999;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="text-center p-3" style="font-family: Arial, Helvetica, sans-serif;">Random Wordle</h1>
+    <hr>
+    <!--Wordle game consist of 6 row where we need to guess the word-->
+    <div class="toast-container text-center" style="position: absolute;">
+        <div class="toast align-items-center bg-secondary" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body text-center text-light" id="alertToast" style="font-size: 20px; ">
+             </div>
+              <button type="button" class="btn-close me-2 m-auto text-light" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        <!-- <div class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header" id="alertToast">
+          </div>
+        </div> -->
+    </div>
+    <div class="text-center p-2" id="game-container">
+    </div>
+    <!-- if you have or have not guessed the word, you will get the meaning of the word in popup-->
+    <!-- Button trigger modal -->
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="result"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeModal">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="font-size: 20px;">
+                    The word is :<span style="color: #538d4e;" id="givenWord"></span>
+                    <br>
+                    <i><b>Definition:</b></i>
+                    <div id="meaningWord"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary text-center" data-dismiss="modal"
+                        onclick="window.location.reload()">Restart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
